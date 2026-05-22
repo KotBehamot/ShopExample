@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Domain.Order
 {
-    internal class Item
+    public class Item
     {
         public Guid Id { get; init; }
         public int Quantity { get; init; }

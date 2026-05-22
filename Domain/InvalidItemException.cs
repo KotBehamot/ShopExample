@@ -3,7 +3,7 @@ using System;
 
 namespace Domain.Order
 {
-    internal class InvalidItemException : Exception
+    public class InvalidItemException : Exception
     {
         public static void Validate(int quantity, Money price)
         {
@@ -22,21 +22,21 @@ namespace Domain.Order
         }
     }
 
-    internal class InvalidOrderStatusException : Exception
+    public class InvalidOrderStatusException : Exception
     {
         public InvalidOrderStatusException(string message) : base(message)
         {
         }
     }
 
-    internal class EmptyOrderException : Exception
+    public class EmptyOrderException : Exception
     {
         public EmptyOrderException(string message) : base(message)
         {
         }
     }
 
-    internal class OrderSubmittedEvent
+    public class OrderSubmittedEvent
     {
         public void Raise(Order order)
         {

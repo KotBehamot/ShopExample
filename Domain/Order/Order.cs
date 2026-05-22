@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Domain.Order
 {
-    internal class Order
+    public class Order
     {
         public Guid Id { get; init; }
         public Customer Customer { get; init; }

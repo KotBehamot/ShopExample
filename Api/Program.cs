@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Text.Json.Serialization;
+using Domain;
+using Domain.Order;
+using Domain.Payment;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
@@ -37,11 +40,36 @@ todosApi.MapGet("/{id}", Results<Ok<Todo>, NotFound> (int id) =>
         : TypedResults.NotFound())
     .WithName("GetTodoById");
 
+app.MapGet("/demo/order", () =>
+{
+    var customer = new Customer { Id = Guid.NewGuid() };
+    var order = Order.CreateDraft(Guid.NewGuid(), customer, new List<Item>());
+    
+    order.AddItem(2, new Money(150, "PLN"));
+    order.AddItem(1, new Money(400, "PLN"));
+    
+    order.Submit();
+
+    // Map order domain model to DTO
+    var dto = new OrderDto(
+        order.Id,
+        order.Customer.Id,
+        order.Status.ToString(),
+        order.OrderItems.Select(i => new OrderItemDto(i.Id, i.Quantity, i.UnitPrice.Amount, i.UnitPrice.Currency, i.TotalPrice.Amount)).ToList()
+    );
+
+    return TypedResults.Ok(dto);
+}).WithName("GetDemoOrder");
+
 app.Run();
 
 public record Todo(int Id, string? Title, DateOnly? DueBy = null, bool IsComplete = false);
 
+public record OrderItemDto(Guid Id, int Quantity, long UnitPrice, string Currency, long TotalPrice);
+public record OrderDto(Guid Id, Guid CustomerId, string Status, List<OrderItemDto> Items);
+
 [JsonSerializable(typeof(Todo[]))]
+[JsonSerializable(typeof(OrderDto))]
 internal partial class AppJsonSerializerContext : JsonSerializerContext
 {
 

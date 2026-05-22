@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Domain.Payment
 {
-    internal readonly record struct Money : IEquatable<Money>
+    public readonly record struct Money : IEquatable<Money>
     {
         public long Amount { get; init; }
         public string Currency { get; init; }
