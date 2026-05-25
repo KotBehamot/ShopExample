@@ -29,4 +29,8 @@ namespace Domain.Orders
     public class EmptyOrderException(string message) : Exception(message)
     {
     }
+
+    public class ItemNotFoundException(string message) : Exception(message)
+    {
+    }
 }

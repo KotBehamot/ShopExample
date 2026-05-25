@@ -26,20 +26,20 @@ namespace Domain.Orders
         public void RemoveItem(Guid itemId)
         {
             var item = _orderItems.Find(i => i.Id == itemId)
-                ?? throw new KeyNotFoundException($"Item '{itemId}' was not found in the order.");
+                ?? throw new ItemNotFoundException($"Item '{itemId}' was not found in the order.");
             _orderItems.Remove(item);
         }
         public void ChangeItemQuantity(Guid itemId, int newQuantity)
         {
             var item = _orderItems.Find(i => i.Id == itemId)
-                ?? throw new KeyNotFoundException($"Item '{itemId}' was not found in the order.");
+                ?? throw new ItemNotFoundException($"Item '{itemId}' was not found in the order.");
             InvalidItemException.Validate(newQuantity, item.UnitPrice);
             item.UpdateQuantity(newQuantity);
         }
         public void ChangeItemPrice(Guid itemId, Money newPrice)
         {
             var item = _orderItems.Find(i => i.Id == itemId)
-                ?? throw new KeyNotFoundException($"Item '{itemId}' was not found in the order.");
+                ?? throw new ItemNotFoundException($"Item '{itemId}' was not found in the order.");
             InvalidItemException.Validate(item.Quantity, newPrice);
             item.UpdatePrice(newPrice);
         }

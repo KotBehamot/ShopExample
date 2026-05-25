@@ -29,16 +29,16 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
-app.MapPost("/orders", async Task<Results<Created<CreateOrderResultDto>, BadRequest<string>>> (CreateOrderCommand command, ISender mediator, CancellationToken cancellationToken) =>
+app.MapPost("/orders", async (CreateOrderCommand command, ISender mediator, CancellationToken cancellationToken) =>
 {
     try
     {
         var result = await mediator.Send(command, cancellationToken);
-        return TypedResults.Created($"/orders/{result.OrderId}", result);
+        return Results.Created($"/orders/{result.OrderId}", result);
     }
     catch (InvalidItemException ex)
     {
-        return TypedResults.BadRequest(ex.Message);
+        return Results.BadRequest(ex.Message);
     }
 }).WithName("CreateOrder");
 
