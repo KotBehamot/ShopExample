@@ -39,7 +39,8 @@ app.MapPost("/orders", async (CreateOrderCommand command, ISender mediator, Canc
     }
     catch (ValidationException ex)
     {
-        return Results.BadRequest(ex.Errors.Select(e => e.ErrorMessage));
+        var errors = ex.Errors.Select(e => e.ErrorMessage).ToArray();
+        return Results.BadRequest(errors);
     }
     catch (InvalidItemException ex)
     {
