@@ -1,4 +1,4 @@
-using Domain.Order;
+using Domain.Orders;
 
 namespace Application.Abstractions.Persistence;
 

@@ -1,5 +1,5 @@
+using Domain.Payments;
 using System;
-using Domain.Payment;
 using Xunit;
 
 namespace Domain.Tests

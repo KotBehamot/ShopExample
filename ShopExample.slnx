@@ -4,4 +4,5 @@
   <Project Path="Domain.Tests/Domain.Tests.csproj" />
   <Project Path="Domain/Domain.csproj" />
   <Project Path="Infrastructure/Infrastructure.csproj" Id="7ed23d12-f805-4fa9-98fc-e299b9acb88f" />
+  <Project Path="ShopExample.Api.IntegrationTests/ShopExample.Api.IntegrationTests.csproj" Id="a577f9fe-b29e-4ad3-9241-6b434b1e174a" />
 </Solution>

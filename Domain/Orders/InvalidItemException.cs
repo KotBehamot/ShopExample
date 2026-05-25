@@ -1,7 +1,7 @@
 using Domain.Payments;
 using System;
 
-namespace Domain.Order
+namespace Domain.Orders
 {
     public class InvalidItemException : Exception
     {
@@ -22,23 +22,17 @@ namespace Domain.Order
         }
     }
 
-    public class InvalidOrderStatusException : Exception
+    public class InvalidOrderStatusException(string message) : Exception(message)
     {
-        public InvalidOrderStatusException(string message) : base(message)
-        {
-        }
     }
 
-    public class EmptyOrderException : Exception
+    public class EmptyOrderException(string message) : Exception(message)
     {
-        public EmptyOrderException(string message) : base(message)
-        {
-        }
     }
 
     public class OrderSubmittedEvent
     {
-        public void Raise(Order order)
+        public static void Raise(Order order)
         {
             ArgumentNullException.ThrowIfNull(order);
         }

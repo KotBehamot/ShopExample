@@ -1,5 +1,5 @@
 using Application.Abstractions.Persistence;
-using Domain.Order;
+using Domain.Orders;
 
 namespace Infrastructure.Persistence;
 

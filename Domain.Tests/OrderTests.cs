@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Domain.Payment;
+using Domain.Payments;
 using Xunit;
-using OrderClass = Domain.Order.Order;
-using Domain.Order;
+using OrderClass = Domain.Orders.Order;
+using Domain.Orders;
 
 namespace Domain.Tests
 {

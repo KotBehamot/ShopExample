@@ -1,7 +1,7 @@
 ﻿using Domain.Payments;
 using System;
 
-namespace Domain.Order
+namespace Domain.Orders
 {
     public class Item
     {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain.Order
+namespace Domain.Orders
 {
     public class Order
     {
@@ -11,7 +11,7 @@ namespace Domain.Order
         public Customer Customer { get; init; }
         public Status Status { get; private set; }
         public List<Item> OrderItems { get; init; }
-        
+    
         public  static Order CreateDraft(Guid id, Customer customer, List<Item> orderItems)
         {
             return new Order(id, customer, Status.Draft, orderItems);

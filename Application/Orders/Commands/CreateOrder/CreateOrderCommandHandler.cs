@@ -1,7 +1,7 @@
 ﻿using Application.Abstractions.Persistence;
 using Domain;
-using Domain.Order;
-using Domain.Payment;
+using Domain.Orders;
+using Domain.Payments;
 using MediatR;
 
 namespace Application.Orders.Commands.CreateOrder
