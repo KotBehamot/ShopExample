@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Application.Abstractions.Persistence;
 using Application.Orders.Queries.GetOrder;
 using Domain;
-using Domain.Order;
-using Domain.Payment;
+using Domain.Orders;
+using Domain.Payments;
 using NSubstitute;
 using Xunit;
 
