@@ -1,4 +1,4 @@
-using Domain.Payment;
+using Domain.Payments;
 using System;
 
 namespace Domain.Order

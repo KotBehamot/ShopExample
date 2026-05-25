@@ -1,4 +1,4 @@
-﻿using Domain.Payment;
+﻿using Domain.Payments;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -36,9 +36,7 @@ namespace Domain.Order
             if (item != null)
             {
                 InvalidItemException.Validate(newQuantity, item.UnitPrice);
-                var updatedItem = Item.Create(newQuantity, item.UnitPrice);
-                OrderItems.Remove(item);
-                OrderItems.Add(updatedItem);
+                item.UpdateQuantity(newQuantity);
             }
         }
         public void ChangeItemPrice(Guid itemId, Money newPrice)
@@ -47,9 +45,7 @@ namespace Domain.Order
             if (item != null)
             {
                 InvalidItemException.Validate(item.Quantity, newPrice);
-                var updatedItem = Item.Create(item.Quantity, newPrice);
-                OrderItems.Remove(item);
-                OrderItems.Add(updatedItem);
+                item.UpdatePrice(newPrice);
             }
         }
         public void Submit()

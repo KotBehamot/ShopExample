@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain.Payment
+namespace Domain.Payments
 {
     public readonly record struct Money : IEquatable<Money>
     {
