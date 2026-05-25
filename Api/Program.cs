@@ -68,6 +68,7 @@ app.Run();
 [JsonSerializable(typeof(GetOrderQuery))]
 [JsonSerializable(typeof(OrderDto))]
 [JsonSerializable(typeof(string))]
+[JsonSerializable(typeof(string[]))]
 internal partial class AppJsonSerializerContext : JsonSerializerContext
 {
 
