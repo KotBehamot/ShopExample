@@ -2,5 +2,5 @@
 
 namespace Application.Orders.Queries.GetOrder
 {
-    public readonly record struct OrderItemDto(Guid Id, string Name, int Quantity, decimal Price);
+    public readonly record struct OrderItemDto(Guid Id, string Name, int Quantity, long Price);
 }

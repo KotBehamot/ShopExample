@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Application.Abstractions.Persistence;
 using Application.Orders.Commands.CreateOrder;
 using Domain;
-using Domain.Order;
+using Domain.Orders;
 using NSubstitute;
 using Xunit;
 

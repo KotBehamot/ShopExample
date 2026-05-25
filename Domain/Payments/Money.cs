@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.Payments
 {
@@ -11,6 +9,7 @@ namespace Domain.Payments
 
         public Money(long amount, string currency)
         {
+            ArgumentException.ThrowIfNullOrWhiteSpace(currency);
             Amount = amount;
             Currency = currency;
         }

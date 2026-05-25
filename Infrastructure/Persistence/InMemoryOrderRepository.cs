@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Application.Abstractions.Persistence;
 using Domain.Orders;
 
@@ -5,7 +6,7 @@ namespace Infrastructure.Persistence;
 
 internal sealed class InMemoryOrderRepository : IOrderRepository
 {
-    private readonly Dictionary<Guid, Order> _orders = [];
+    private readonly ConcurrentDictionary<Guid, Order> _orders = new();
 
     public Task AddAsync(Order order, CancellationToken cancellationToken)
     {

@@ -1,6 +1,7 @@
 <Solution>
   <Project Path="Api/Api.csproj" Id="88fb4f01-17e6-46be-84f9-960b9efadb0d" />
   <Project Path="Application/Application.csproj" />
+  <Project Path="Application.Tests/Application.Tests.csproj" />
   <Project Path="Domain.Tests/Domain.Tests.csproj" />
   <Project Path="Domain/Domain.csproj" />
   <Project Path="Infrastructure/Infrastructure.csproj" Id="7ed23d12-f805-4fa9-98fc-e299b9acb88f" />

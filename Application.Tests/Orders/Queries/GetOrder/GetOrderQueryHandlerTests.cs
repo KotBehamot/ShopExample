@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Application.Abstractions.Persistence;
 using Application.Orders.Queries.GetOrder;
 using Domain;
-using Domain.Order;
-using Domain.Payment;
+using Domain.Orders;
+using Domain.Payments;
 using NSubstitute;
 using Xunit;
 
@@ -46,7 +46,7 @@ namespace Application.Tests.Orders.Queries.GetOrder
             Assert.Equal("Draft", result.Status);
             Assert.Single(result.Items);
             Assert.Equal(3, result.Items[0].Quantity);
-            Assert.Equal(200m, result.Items[0].Price);
+            Assert.Equal(200L, result.Items[0].Price);
         }
 
         [Fact]
