@@ -13,6 +13,7 @@ public static class DependencyInjection
     {
         ArgumentNullException.ThrowIfNull(services);
 
+        services.AddMemoryCache();
         services.AddSingleton<IOrderRepository, InMemoryOrderRepository>();
         services.AddSingleton<IUnitOfWork, InMemoryUnitOfWork>();
 
