@@ -29,12 +29,4 @@ namespace Domain.Orders
     public class EmptyOrderException(string message) : Exception(message)
     {
     }
-
-    public class OrderSubmittedEvent
-    {
-        public static void Raise(Order order)
-        {
-            ArgumentNullException.ThrowIfNull(order);
-        }
-    }
 }

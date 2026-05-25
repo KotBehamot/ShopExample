@@ -58,7 +58,6 @@ namespace Domain.Orders
                 throw new EmptyOrderException("Cannot submit an order with no items.");
             }
             Status = Status.Submitted;
-            new OrderSubmittedEvent().Raise(this);
         }
         internal static Order Create(Guid id, Customer customer, Status status, List<Item> orderItems)
         {
