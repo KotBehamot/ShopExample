@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Application.Behaviors;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,29 +22,9 @@ public static class DependencyInjection
             configuration.RegisterServicesFromAssembly(assembly);
         });
 
-        RegisterValidators(services, assembly);
+        services.AddValidatorsFromAssembly(assembly, includeInternalTypes: true);
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         return services;
-    }
-
-    private static void RegisterValidators(IServiceCollection services, Assembly assembly)
-    {
-        foreach (var validatorType in assembly.DefinedTypes)
-        {
-            if (validatorType is { IsAbstract: true } || validatorType.IsInterface)
-            {
-                continue;
-            }
-
-            foreach (var serviceType in validatorType.ImplementedInterfaces)
-            {
-                if (!serviceType.IsGenericType || serviceType.GetGenericTypeDefinition() != typeof(IValidator<>))
-                {
-                    continue;
-                }
-
-                services.AddScoped(serviceType, validatorType.AsType());
-            }
-        }
     }
 }

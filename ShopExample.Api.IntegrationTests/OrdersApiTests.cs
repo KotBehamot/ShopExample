@@ -49,10 +49,10 @@ public sealed class OrdersApiTests : IClassFixture<ShopApiFactory>
     }
 
     /// <summary>
-    /// Returns server error when order item quantity is invalid.
+    /// Returns bad request when order item quantity is invalid.
     /// </summary>
     [Fact]
-    public async Task WhenOrderItemQuantityIsInvalidThenCreateOrderReturnsInternalServerError()
+    public async Task WhenOrderItemQuantityIsInvalidThenCreateOrderReturnsBadRequest()
     {
         var command = new CreateOrderCommand
         {
@@ -65,6 +65,6 @@ public sealed class OrdersApiTests : IClassFixture<ShopApiFactory>
 
         using var response = await _client.PostAsJsonAsync("/orders", command);
 
-        Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
 }

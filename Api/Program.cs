@@ -1,5 +1,7 @@
 using Application.Orders.Commands.CreateOrder;
 using Application.Orders.Queries.GetOrder;
+using Domain.Orders;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Text.Json.Serialization;
@@ -30,8 +32,20 @@ if (app.Environment.IsDevelopment())
 
 app.MapPost("/orders", async (CreateOrderCommand command, ISender mediator, CancellationToken cancellationToken) =>
 {
-    var result = await mediator.Send(command, cancellationToken);
-    return TypedResults.Created($"/orders/{result.OrderId}", result);
+    try
+    {
+        var result = await mediator.Send(command, cancellationToken);
+        return Results.Created($"/orders/{result.OrderId}", result);
+    }
+    catch (ValidationException ex)
+    {
+        var errors = ex.Errors.Select(e => e.ErrorMessage).ToArray();
+        return Results.BadRequest(errors);
+    }
+    catch (InvalidItemException ex)
+    {
+        return Results.BadRequest(ex.Message);
+    }
 }).WithName("CreateOrder");
 
 app.MapGet("/orders/{id:guid}", async Task<Results<Ok<OrderDto>, NotFound>> (Guid id, ISender mediator, CancellationToken cancellationToken) =>
@@ -53,6 +67,8 @@ app.Run();
 [JsonSerializable(typeof(CreateOrderResultDto))]
 [JsonSerializable(typeof(GetOrderQuery))]
 [JsonSerializable(typeof(OrderDto))]
+[JsonSerializable(typeof(string))]
+[JsonSerializable(typeof(string[]))]
 internal partial class AppJsonSerializerContext : JsonSerializerContext
 {
 

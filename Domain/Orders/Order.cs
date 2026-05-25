@@ -1,52 +1,47 @@
 ﻿using Domain.Payments;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.Orders
 {
     public class Order
     {
+        private readonly List<Item> _orderItems;
+
         public Guid Id { get; init; }
         public Customer Customer { get; init; }
         public Status Status { get; private set; }
-        public List<Item> OrderItems { get; init; }
+        public IReadOnlyList<Item> OrderItems => _orderItems;
     
-        public  static Order CreateDraft(Guid id, Customer customer, List<Item> orderItems)
+        public static Order CreateDraft(Guid id, Customer customer, List<Item> orderItems)
         {
             return new Order(id, customer, Status.Draft, orderItems);
         }
-        public void AddItem( int quantity, Money price)
+        public void AddItem(int quantity, Money price)
         {
             InvalidItemException.Validate(quantity, price);
             var item = Item.Create(quantity, price);
-            OrderItems.Add(item);
+            _orderItems.Add(item);
         }
         public void RemoveItem(Guid itemId)
         {
-            var item = OrderItems.Find(i => i.Id == itemId);
-            if (item != null)
-            {
-                OrderItems.Remove(item);
-            }
+            var item = _orderItems.Find(i => i.Id == itemId)
+                ?? throw new ItemNotFoundException($"Item '{itemId}' was not found in the order.");
+            _orderItems.Remove(item);
         }
         public void ChangeItemQuantity(Guid itemId, int newQuantity)
         {
-            var item = OrderItems.Find(i => i.Id == itemId);
-            if (item != null)
-            {
-                InvalidItemException.Validate(newQuantity, item.UnitPrice);
-                item.UpdateQuantity(newQuantity);
-            }
+            var item = _orderItems.Find(i => i.Id == itemId)
+                ?? throw new ItemNotFoundException($"Item '{itemId}' was not found in the order.");
+            InvalidItemException.Validate(newQuantity, item.UnitPrice);
+            item.UpdateQuantity(newQuantity);
         }
         public void ChangeItemPrice(Guid itemId, Money newPrice)
         {
-            var item = OrderItems.Find(i => i.Id == itemId);
-            if (item != null)
-            {
-                InvalidItemException.Validate(item.Quantity, newPrice);
-                item.UpdatePrice(newPrice);
-            }
+            var item = _orderItems.Find(i => i.Id == itemId)
+                ?? throw new ItemNotFoundException($"Item '{itemId}' was not found in the order.");
+            InvalidItemException.Validate(item.Quantity, newPrice);
+            item.UpdatePrice(newPrice);
         }
         public void Submit()
         {
@@ -54,7 +49,7 @@ namespace Domain.Orders
             {
                 throw new InvalidOrderStatusException("Only draft orders can be submitted.");
             }
-            if(OrderItems.Count <= 0) {
+            if(_orderItems.Count <= 0) {
                 throw new EmptyOrderException("Cannot submit an order with no items.");
             }
             Status = Status.Submitted;
@@ -68,7 +63,7 @@ namespace Domain.Orders
             Id = id;
             Customer = customer;
             Status = status;
-            OrderItems = orderItems;
+            _orderItems = orderItems;
         }
     }
 }

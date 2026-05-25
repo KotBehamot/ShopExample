@@ -46,7 +46,7 @@ namespace Application.Tests.Orders.Queries.GetOrder
             Assert.Equal("Draft", result.Status);
             Assert.Single(result.Items);
             Assert.Equal(3, result.Items[0].Quantity);
-            Assert.Equal(200m, result.Items[0].Price);
+            Assert.Equal(200L, result.Items[0].Price);
         }
 
         [Fact]
