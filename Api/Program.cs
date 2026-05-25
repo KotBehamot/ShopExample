@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using System.Text.Json.Serialization;
 using Application;
 using Infrastructure;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
@@ -24,6 +25,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app.MapPost("/orders", async (CreateOrderCommand command, ISender mediator, CancellationToken cancellationToken) =>
