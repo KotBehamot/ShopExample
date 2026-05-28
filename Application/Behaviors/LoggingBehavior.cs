@@ -9,27 +9,34 @@ namespace Application.Behaviors
         : IPipelineBehavior<TRequest, TResponse>
         where TRequest : notnull
     {
-        private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger = logger;
-
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             var requestName = typeof(TRequest).Name;
 
-            using (_logger.BeginScope(new Dictionary<string, object?>
+            using (logger.BeginScope(new Dictionary<string, object?>
             {
                 ["RequestName"] = requestName,
                 ["RequestType"] = typeof(TRequest).FullName
             }))
             {
-                _logger.LogInformation("Handling request with content {@Request}", request);
+                logger.LogInformation("Handling request with content {@Request}", request);
 
                 var stopwatch = Stopwatch.StartNew();
-                var response = await next(cancellationToken);
-                stopwatch.Stop();
+                try
+                {
+                    var response = await next(cancellationToken);
+                    stopwatch.Stop();
 
-                _logger.LogInformation("Handled request in {ElapsedMilliseconds}ms", stopwatch.ElapsedMilliseconds);
+                    logger.LogInformation("Handled request in {ElapsedMilliseconds}ms", stopwatch.ElapsedMilliseconds);
 
-                return response;
+                    return response;
+                }
+                catch (Exception ex)
+                {
+                    stopwatch.Stop();
+                    logger.LogError(ex, "Request failed after {ElapsedMilliseconds}ms", stopwatch.ElapsedMilliseconds);
+                    throw;
+                }
             }
         }
     }
