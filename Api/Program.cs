@@ -1,7 +1,7 @@
 using Application.Orders.Commands.CreateOrder;
 using Application.Orders.Queries.GetOrder;
+using Application.Exceptions;
 using Domain.Orders;
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Text.Json.Serialization;
@@ -37,9 +37,9 @@ app.MapPost("/orders", async (CreateOrderCommand command, ISender mediator, Canc
         var result = await mediator.Send(command, cancellationToken);
         return Results.Created($"/orders/{result.OrderId}", result);
     }
-    catch (ValidationException ex)
+    catch (ApplicationValidationException ex)
     {
-        var errors = ex.Errors.Select(e => e.ErrorMessage).ToArray();
+        var errors = ex.Errors.ToArray();
         return Results.BadRequest(errors);
     }
     catch (InvalidItemException ex)

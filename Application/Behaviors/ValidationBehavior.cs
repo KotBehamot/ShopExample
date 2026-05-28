@@ -1,3 +1,4 @@
+using Application.Exceptions;
 using FluentValidation;
 using MediatR;
 
@@ -35,7 +36,7 @@ internal sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavio
 
         if (failures.Count != 0)
         {
-            throw new ValidationException(failures);
+            throw new ApplicationValidationException(failures.Select(static failure => failure.ErrorMessage));
         }
 
         return await next(cancellationToken);
